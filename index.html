@@ -8,7 +8,98 @@
     <meta name="description" content="Empowering Your Future with Sustainable Excellence">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+        }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.8); }
+        }
+        
+        .card-hover-effect {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover-effect:hover {
+            transform: translateY(-12px) scale(1.02);
+        }
+        
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: blob 7s infinite;
+        }
+        
+        @keyframes blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .text-shimmer {
+            background: linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #16a34a 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+        
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-base-100 text-base-content antialiased" x-data="{ scrolled: false }"
@@ -81,213 +172,117 @@
         </div>
     </div>
 
-    <!-- Hero Section (Carousel) -->
-    <!-- Hero Section (Carousel) -->
-    <!-- Hero Section (Carousel) -->
-    <div class="relative w-full h-[85vh] group" x-data="{
-        activeSlide: 1,
-        slides: [1, 2, 3, 4, 5],
-        next() {
-            this.activeSlide = this.activeSlide === this.slides.length ? 1 : this.activeSlide + 1;
-            document.getElementById('slide' + this.activeSlide).scrollIntoView({ behavior: 'smooth' });
-        },
-        prev() {
-            this.activeSlide = this.activeSlide === 1 ? this.slides.length : this.activeSlide - 1;
-            document.getElementById('slide' + this.activeSlide).scrollIntoView({ behavior: 'smooth' });
-        }
-    }">
-        <div class="carousel w-full h-full relative">
-            <!-- Slide 1: Solar Operations and Maintenance -->
-            <div id="slide1" class="carousel-item relative w-full h-full">
-                <img src="/images/hero/1_Maintenance.jpg" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute flex flex-col justify-center w-full h-full text-left text-white p-12 md:p-24">
-                    <div class="max-w-4xl">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Solar Operations and Maintenance</h1>
-                        <div class="w-full h-0.5 bg-white/60 mb-6"></div>
-                        <p class="mb-8 text-lg font-medium drop-shadow-md max-w-2xl">Solar Operations and Maintenance
-                            involves regular monitoring, upkeep, and repair of solar installations to ensure optimal
-                            performance, longevity, and energy output.</p>
-                        <div class="flex gap-4">
-                            <button
-                                class="btn bg-green-600 hover:bg-green-700 text-white border-none rounded px-8 font-bold text-sm">READ
-                                MORE</button>
-                            <button
-                                class="btn bg-orange-500 hover:bg-orange-600 text-white border-none rounded px-8 font-bold text-sm">CONSULT</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 justify-between transform px-4">
-                    <button @click="prev()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❮</button>
-                    <button @click="next()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❯</button>
+    <!-- Premium Hero Section with Auto-Playing Animation -->
+    <section class="relative h-screen w-full bg-white" x-data="heroAnimation()" x-init="init()">
+        <!-- Canvas Container -->
+        <div class="relative h-full w-full overflow-hidden bg-white">
+            <!-- Loading State -->
+            <div x-show="!loaded" class="absolute inset-0 flex items-center justify-center bg-white z-10">
+                <div class="text-center">
+                    <div class="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-green-600 border-r-transparent mb-4"></div>
+                    <p class="text-slate-600 text-sm font-medium">Loading Experience...</p>
                 </div>
             </div>
 
-            <!-- Slide 2: Fundraising -->
-            <div id="slide2" class="carousel-item relative w-full h-full">
-                <img src="/images/hero/2_Fundraising.jpg" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute flex flex-col justify-center w-full h-full text-left text-white p-12 md:p-24">
-                    <div class="max-w-4xl">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Fundraising</h1>
-                        <div class="w-full h-0.5 bg-white/60 mb-6"></div>
-                        <p class="mb-8 text-lg font-medium drop-shadow-md max-w-2xl">Fundraising for solar projects
-                            involves
-                            seeking financial support from investors, organizations, and communities to fund the
-                            development
-                            and implementation of solar energy initiatives.</p>
-                        <div class="flex gap-4">
-                            <button
-                                class="btn bg-green-600 hover:bg-green-700 text-white border-none rounded px-8 font-bold text-sm">READ
-                                MORE</button>
-                            <button
-                                class="btn bg-orange-500 hover:bg-orange-600 text-white border-none rounded px-8 font-bold text-sm">CONSULT</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 justify-between transform px-4">
-                    <button @click="prev()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❮</button>
-                    <button @click="next()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❯</button>
-                </div>
-            </div>
+            <!-- Canvas -->
+            <canvas 
+                x-ref="canvas" 
+                class="w-full h-full object-cover"
+                :class="{ 'opacity-0': !loaded, 'opacity-100 transition-opacity duration-500': loaded }"
+            ></canvas>
 
-            <!-- Slide 3: Project Consulting -->
-            <div id="slide3" class="carousel-item relative w-full h-full">
-                <img src="/images/hero/3_Solarpark.jpg" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute flex flex-col justify-center w-full h-full text-left text-white p-12 md:p-24">
-                    <div class="max-w-4xl">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Project Consulting</h1>
-                        <div class="w-full h-0.5 bg-white/60 mb-6"></div>
-                        <p class="mb-8 text-lg font-medium drop-shadow-md max-w-2xl">Solar project consulting offers
-                            specialized expertise in planning, designing, and managing solar initiatives, ensuring
-                            effective
-                            implementation and optimal performance.</p>
-                        <div class="flex gap-4">
-                            <button
-                                class="btn bg-green-600 hover:bg-green-700 text-white border-none rounded px-8 font-bold text-sm">READ
-                                MORE</button>
-                            <button
-                                class="btn bg-orange-500 hover:bg-orange-600 text-white border-none rounded px-8 font-bold text-sm">CONSULT</button>
+            <!-- Text Overlay -->
+            <div class="absolute inset-0 pointer-events-none flex items-center justify-center text-center px-6">
+                <div class="relative" x-show="loaded" x-transition:enter="transition ease-out duration-1000 delay-500" x-transition:enter-start="opacity-0 translate-y-10" x-transition:enter-end="opacity-100 translate-y-0">
+                    <div class="absolute inset-0 bg-white/25 rounded-3xl -m-10"></div>
+                    <div class="relative p-10">
+                        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(255,255,255,1)]">Solar Operations & Maintenance</h1>
+                        <p class="text-xl md:text-2xl text-slate-900 mb-8 max-w-3xl mx-auto font-bold drop-shadow-[0_4px_10px_rgba(255,255,255,1)]">Engineering excellence in every layer</p>
+                        <div class="flex gap-4 justify-center pointer-events-auto">
+                            <button class="btn bg-green-600 hover:bg-green-700 text-white border-none rounded-full px-10 py-3 font-bold shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                                Get Started
+                            </button>
+                            <button class="btn bg-slate-900 hover:bg-slate-800 text-white border-none rounded-full px-10 py-3 font-bold shadow-xl transition-all hover:scale-105">
+                                Learn More
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 justify-between transform px-4">
-                    <button @click="prev()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❮</button>
-                    <button @click="next()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❯</button>
-                </div>
-            </div>
-
-            <!-- Slide 4: Utility-Scale Solar parks -->
-            <div id="slide4" class="carousel-item relative w-full h-full">
-                <img src="/images/hero/4_SolarPark-banner.jpg" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute flex flex-col justify-center w-full h-full text-left text-white p-12 md:p-24">
-                    <div class="max-w-4xl">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Utility-Scale Solar parks</h1>
-                        <div class="w-full h-0.5 bg-white/60 mb-6"></div>
-                        <p class="mb-8 text-lg font-medium drop-shadow-md max-w-2xl">Utility-scale solar parks are
-                            large-scale solar energy installations that generate electricity from sunlight and
-                            contribute
-                            significantly to renewable energy production.</p>
-                        <div class="flex gap-4">
-                            <button
-                                class="btn bg-green-600 hover:bg-green-700 text-white border-none rounded px-8 font-bold text-sm">READ
-                                MORE</button>
-                            <button
-                                class="btn bg-orange-500 hover:bg-orange-600 text-white border-none rounded px-8 font-bold text-sm">CONSULT</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 justify-between transform px-4">
-                    <button @click="prev()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❮</button>
-                    <button @click="next()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❯</button>
-                </div>
-            </div>
-
-            <!-- Slide 5: On-grid Rooftop Solar -->
-            <div id="slide5" class="carousel-item relative w-full h-full">
-                <img src="/images/hero/5_Rooftop.jpg" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute flex flex-col justify-center w-full h-full text-left text-white p-12 md:p-24">
-                    <div class="max-w-4xl">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">On-grid Rooftop Solar</h1>
-                        <div class="w-full h-0.5 bg-white/60 mb-6"></div>
-                        <p class="mb-8 text-lg font-medium drop-shadow-md max-w-2xl">On-grid rooftop solar systems
-                            utilize
-                            building rooftops to generate clean energy, connected to the grid, fostering sustainability,
-                            savings, and environmental contribution.</p>
-                        <div class="flex gap-4">
-                            <button
-                                class="btn bg-green-600 hover:bg-green-700 text-white border-none rounded px-8 font-bold text-sm">READ
-                                MORE</button>
-                            <button
-                                class="btn bg-orange-500 hover:bg-orange-600 text-white border-none rounded px-8 font-bold text-sm">CONSULT</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 justify-between transform px-4">
-                    <button @click="prev()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❮</button>
-                    <button @click="next()" class="btn btn-ghost text-white text-3xl hover:bg-transparent">❯</button>
                 </div>
             </div>
         </div>
-
-        <!-- Navigation Dots -->
-        <div class="absolute flex w-full justify-center gap-2 bottom-5 pointer-events-none">
-            <template x-for="slide in slides" :key="slide">
-                <a :href="'#slide' + slide"
-                    @click.prevent="activeSlide = slide; document.getElementById('slide' + slide).scrollIntoView({ behavior: 'smooth' })"
-                    class="btn btn-xs btn-circle border-none pointer-events-auto"
-                    :class="activeSlide === slide ? 'bg-black text-white hover:bg-black' : 'bg-gray-300 text-transparent hover:bg-gray-400'"></a>
-            </template>
-        </div>
-    </div>
+    </section>
 
     <!-- Services Section -->
-    <section class="py-24 bg-base-100">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Our Core Solutions</h2>
-                <p class="text-base-content/70 max-w-2xl mx-auto">Powering the future with comprehensive solar
-                    technologies.</p>
+    <section class="py-24 bg-gradient-to-br from-slate-50 via-green-50 to-blue-50 relative overflow-hidden">
+        <!-- Animated Background Blobs -->
+        <div class="blob w-96 h-96 bg-green-400 top-20 left-10"></div>
+        <div class="blob w-96 h-96 bg-blue-400 bottom-20 right-10" style="animation-delay: 2s;"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-green-100 mb-6">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <span class="text-sm font-bold text-slate-700">Comprehensive Solar Solutions</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Core <span class="gradient-text">Solutions</span></h2>
+                <p class="text-slate-600 text-lg max-w-2xl mx-auto">Powering the future with comprehensive solar
+                    technologies and sustainable energy innovations.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div
-                    class="card w-full bg-base-100 shadow-xl image-full hover:shadow-2xl transition-shadow duration-300 h-96 group">
+                <div data-aos="fade-up" data-aos-delay="100"
+                    class="card w-full bg-base-100 shadow-xl image-full card-hover-effect h-96 group rounded-3xl overflow-hidden">
                     <figure><img src="/images/1-bhero.jpg" alt="Utility Scale Parks"
                             class="group-hover:scale-110 transition-transform duration-700 w-full h-full object-cover" />
                     </figure>
                     <div class="card-body justify-end">
-                        <h2 class="card-title text-2xl mb-2">Utility Scale Parks</h2>
-                        <p class="grow-0">Large-scale solar energy installations generating electricity from sunlight.
+                        <div class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h2 class="card-title text-2xl mb-2 font-bold">Utility Scale Parks</h2>
+                        <p class="grow-0 text-white/90">Large-scale solar energy installations generating electricity from sunlight.
                         </p>
                     </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div
-                    class="card w-full bg-base-100 shadow-xl image-full hover:shadow-2xl transition-shadow duration-300 h-96 group">
+                <div data-aos="fade-up" data-aos-delay="200"
+                    class="card w-full bg-base-100 shadow-xl image-full card-hover-effect h-96 group rounded-3xl overflow-hidden">
                     <figure><img src="/images/2-bhero.jpeg" alt="O&M Services"
                             class="group-hover:scale-110 transition-transform duration-700 w-full h-full object-cover" />
                     </figure>
                     <div class="card-body justify-end">
-                        <h2 class="card-title text-2xl mb-2">O&M Services</h2>
-                        <p class="grow-0">Regular monitoring and repair of solar installations.</p>
+                        <div class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="card-title text-2xl mb-2 font-bold">O&M Services</h2>
+                        <p class="grow-0 text-white/90">Regular monitoring and repair of solar installations.</p>
                     </div>
                 </div>
 
                 <!-- Card 3 -->
-                <div
-                    class="card w-full bg-base-100 shadow-xl image-full hover:shadow-2xl transition-shadow duration-300 h-96 group">
+                <div data-aos="fade-up" data-aos-delay="300"
+                    class="card w-full bg-base-100 shadow-xl image-full card-hover-effect h-96 group rounded-3xl overflow-hidden">
                     <figure><img src="/images/3-bhero.jpg" alt="Rooftop Solar EPC"
                             class="group-hover:scale-110 transition-transform duration-700 w-full h-full object-cover" />
                     </figure>
                     <div class="card-body justify-end">
-                        <h2 class="card-title text-2xl mb-2">Rooftop Solar EPC</h2>
-                        <p class="grow-0">Design and construction of rooftop solar installations.</p>
+                        <div class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                        </div>
+                        <h2 class="card-title text-2xl mb-2 font-bold">Rooftop Solar EPC</h2>
+                        <p class="grow-0 text-white/90">Design and construction of rooftop solar installations.</p>
                     </div>
                 </div>
             </div>
@@ -295,15 +290,21 @@
     </section>
 
     <!-- Why Choose Us -->
-    <section class="py-24 bg-base-200">
-        <div class="container mx-auto px-4">
+    <section class="py-24 bg-base-200 relative overflow-hidden">
+        <div class="blob w-96 h-96 bg-green-300 top-40 right-20" style="animation-delay: 1s;"></div>
+        <div class="blob w-96 h-96 bg-blue-300 bottom-40 left-20" style="animation-delay: 3s;"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
             <!-- Section Header -->
-            <div class="text-center max-w-4xl mx-auto mb-20">
-                <div
-                    class="badge badge-primary mb-6 p-4 text-white font-bold tracking-widest uppercase text-sm rounded-full">
-                    Why Choose Niva Ecotech?</div>
+            <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="font-bold tracking-widest uppercase text-sm">Why Choose Niva Ecotech?</span>
+                </div>
                 <h2 class="text-4xl md:text-5xl font-extrabold mb-8 leading-tight text-slate-900">Financial gains,
-                    convenience & <br class="hidden md:block" /> future-proof investments.</h2>
+                    convenience & <br class="hidden md:block" /> <span class="gradient-text">future-proof investments</span>.</h2>
                 <p class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">At Niva Ecotech, we stand out as
                     your ideal partner in harnessing the power of sustainable energy solutions.</p>
             </div>
@@ -313,8 +314,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
                 <!-- Item 1 (Green Card) - Left Column -->
-                <div
-                    class="relative bg-gradient-to-r from-green-600 to-green-500 rounded-2xl p-8 overflow-hidden shadow-2xl shadow-green-900/20 text-white flex flex-col md:flex-row items-center gap-8 group hover:-translate-y-2 transition-transform duration-500 ease-out">
+                <div data-aos="fade-right" data-aos-delay="100"
+                    class="relative bg-gradient-to-r from-green-600 to-green-500 rounded-3xl p-8 overflow-hidden shadow-2xl shadow-green-900/20 text-white flex flex-col md:flex-row items-center gap-8 group hover:-translate-y-2 hover:shadow-3xl transition-all duration-500 ease-out">
                     <div
                         class="text-[120px] md:text-[160px] font-black leading-none opacity-20 select-none shrink-0 font-sans tracking-tighter mix-blend-overlay">
                         1</div>
@@ -326,8 +327,8 @@
                 </div>
 
                 <!-- Item 2 (Grey Card) - Right Column -->
-                <div
-                    class="relative bg-slate-100 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8 md:text-right group hover:shadow-lg transition-all duration-300">
+                <div data-aos="fade-left" data-aos-delay="100"
+                    class="relative bg-slate-100 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 md:text-right group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                     <div
                         class="md:order-2 text-[120px] md:text-[160px] font-black leading-none text-slate-300 select-none shrink-0 font-sans tracking-tighter group-hover:text-green-200 transition-colors duration-500">
                         2</div>
@@ -339,8 +340,8 @@
                 </div>
 
                 <!-- Item 4 (Grey Card) - Left Column (Moved Here) -->
-                <div
-                    class="relative bg-slate-100 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8 md:text-left group hover:shadow-lg transition-all duration-300">
+                <div data-aos="fade-right" data-aos-delay="200"
+                    class="relative bg-slate-100 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 md:text-left group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                     <div
                         class="md:order-1 text-[120px] md:text-[160px] font-black leading-none text-slate-300 select-none shrink-0 font-sans tracking-tighter group-hover:text-green-200 transition-colors duration-500">
                         4</div>
@@ -352,8 +353,8 @@
                 </div>
 
                 <!-- Item 3 (Green Card) - Right Column (Moved Here) -->
-                <div
-                    class="relative bg-gradient-to-r from-green-600 to-green-500 rounded-2xl p-8 overflow-hidden shadow-2xl shadow-green-900/20 text-white flex flex-col md:flex-row items-center gap-8 group hover:-translate-y-2 transition-transform duration-500 ease-out">
+                <div data-aos="fade-left" data-aos-delay="200"
+                    class="relative bg-gradient-to-r from-green-600 to-green-500 rounded-3xl p-8 overflow-hidden shadow-2xl shadow-green-900/20 text-white flex flex-col md:flex-row items-center gap-8 group hover:-translate-y-2 hover:shadow-3xl transition-all duration-500 ease-out">
                     <div
                         class="text-[120px] md:text-[160px] font-black leading-none opacity-20 select-none shrink-0 font-sans tracking-tighter mix-blend-overlay">
                         3</div>
@@ -366,8 +367,8 @@
                 </div>
 
                 <!-- Item 5 (Green Card) - Left Column -->
-                <div
-                    class="relative bg-gradient-to-r from-green-600 to-green-500 rounded-2xl p-8 overflow-hidden shadow-2xl shadow-green-900/20 text-white flex flex-col md:flex-row items-center gap-8 group hover:-translate-y-2 transition-transform duration-500 ease-out">
+                <div data-aos="fade-right" data-aos-delay="300"
+                    class="relative bg-gradient-to-r from-green-600 to-green-500 rounded-3xl p-8 overflow-hidden shadow-2xl shadow-green-900/20 text-white flex flex-col md:flex-row items-center gap-8 group hover:-translate-y-2 hover:shadow-3xl transition-all duration-500 ease-out">
                     <div
                         class="text-[120px] md:text-[160px] font-black leading-none opacity-20 select-none shrink-0 font-sans tracking-tighter mix-blend-overlay">
                         5</div>
@@ -379,8 +380,8 @@
                 </div>
 
                 <!-- Item 6 (Grey Card) - Right Column -->
-                <div
-                    class="relative bg-slate-100 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8 md:text-right group hover:shadow-lg transition-all duration-300">
+                <div data-aos="fade-left" data-aos-delay="300"
+                    class="relative bg-slate-100 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 md:text-right group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                     <div
                         class="md:order-2 text-[120px] md:text-[160px] font-black leading-none text-slate-300 select-none shrink-0 font-sans tracking-tighter group-hover:text-green-200 transition-colors duration-500">
                         6</div>
@@ -394,9 +395,10 @@
             </div>
 
             <!-- CTA -->
-            <div
-                class="alert bg-slate-900 text-white shadow-2xl mt-24 flex flex-col md:flex-row items-center justify-between gap-8 rounded-[2rem] border-none max-w-5xl mx-auto p-12 overflow-hidden relative">
+            <div data-aos="zoom-in" data-aos-delay="400"
+                class="alert bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-2xl mt-24 flex flex-col md:flex-row items-center justify-between gap-8 rounded-[2.5rem] border-none max-w-5xl mx-auto p-12 overflow-hidden relative pulse-glow">
                 <!-- Background Pattern -->
+                <div class="blob w-64 h-64 bg-green-500 top-0 right-0" style="animation-delay: 0.5s;"></div>
                 <div
                     class="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-green-400 via-transparent to-transparent">
                 </div>
@@ -425,34 +427,38 @@
     </section>
 
     <!-- Stats -->
-    <div class="stats stats-vertical lg:stats-horizontal shadow w-full bg-slate-900 text-white rounded-none py-10">
-        <div class="stat place-items-center">
-            <div class="stat-value text-primary">9+</div>
-            <div class="stat-desc text-slate-300">Years Experience</div>
+    <div class="stats stats-vertical lg:stats-horizontal shadow w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-none py-10">
+        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-value text-green-400 text-5xl font-bold">9+</div>
+            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Years Experience</div>
         </div>
-        <div class="stat place-items-center">
-            <div class="stat-value text-primary">2GW</div>
-            <div class="stat-desc text-slate-300">Mega Watts</div>
+        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-value text-green-400 text-5xl font-bold">2GW</div>
+            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Mega Watts</div>
         </div>
-        <div class="stat place-items-center">
-            <div class="stat-value text-primary">25+</div>
-            <div class="stat-desc text-slate-300">Satisfied Clients</div>
+        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-value text-green-400 text-5xl font-bold">25+</div>
+            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Satisfied Clients</div>
         </div>
-        <div class="stat place-items-center">
-            <div class="stat-value text-primary">40+</div>
-            <div class="stat-desc text-slate-300">Projects</div>
+        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="400">
+            <div class="stat-value text-green-400 text-5xl font-bold">40+</div>
+            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Projects</div>
         </div>
     </div>
 
     <!-- Clients -->
-    <section class="py-20 bg-base-100">
-        <h2 class="text-3xl font-bold text-center mb-12">Our Esteemed Clients</h2>
-        <div
-            class="flex flex-wrap justify-center gap-10 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            <!-- Use local images if moved, or updated links. Using placeholders or verifying names -->
-            <img src="/images/adm-joinflex-private-limited.jpg" class="h-16 object-contain" alt="Client">
-            <img src="/images/bajaj-castings.jpg" class="h-16 object-contain" alt="Client">
-            <img src="/images/finolex-plasson.jpg" class="h-16 object-contain" alt="Client">
+    <section class="py-20 bg-base-100 relative overflow-hidden">
+        <div class="blob w-72 h-72 bg-green-200 top-10 left-10" style="animation-delay: 2s;"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">Our <span class="gradient-text">Esteemed Clients</span></h2>
+            <p class="text-center text-slate-600 mb-12 text-lg" data-aos="fade-up" data-aos-delay="100">Trusted by leading organizations worldwide</p>
+            <div data-aos="fade-up" data-aos-delay="200"
+                class="flex flex-wrap justify-center gap-10 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                <!-- Use local images if moved, or updated links. Using placeholders or verifying names -->
+                <img src="/images/adm-joinflex-private-limited.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="Client">
+                <img src="/images/bajaj-castings.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="Client">
+                <img src="/images/finolex-plasson.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="Client">
+            </div>
         </div>
     </section>
 
@@ -487,6 +493,123 @@
         </aside>
     </footer>
 
+    <script>
+        // Hero Animation Component - Auto-playing like a video
+        function heroAnimation() {
+            return {
+                frames: [],
+                loaded: false,
+                currentFrame: 0,
+                canvas: null,
+                ctx: null,
+                frameCount: 120,
+                animationId: null,
+                fps: 30, // Frames per second
+                isMobile: false,
+                prefersReducedMotion: false,
+
+                init() {
+                    this.canvas = this.$refs.canvas;
+                    this.ctx = this.canvas.getContext('2d');
+                    this.isMobile = window.innerWidth < 768;
+                    this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    
+                    // Set canvas to match viewport dimensions
+                    this.resizeCanvas();
+                    window.addEventListener('resize', () => this.resizeCanvas());
+                    
+                    if (this.prefersReducedMotion || this.isMobile) {
+                        // Just load and show last frame for mobile/reduced motion
+                        this.loadSingleFrame();
+                    } else {
+                        // Load all frames and auto-play for desktop
+                        this.preloadFrames();
+                    }
+                },
+
+                resizeCanvas() {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                    // Redraw current frame after resize
+                    if (this.loaded && this.frames.length > 0) {
+                        this.updateFrame(this.currentFrame);
+                    }
+                },
+
+                loadSingleFrame() {
+                    const img = new Image();
+                    // Load the last frame (fully exploded view)
+                    img.src = `/sequence/ezgif-frame-120.jpg`;
+                    img.onload = () => {
+                        this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+                        this.loaded = true;
+                    };
+                },
+
+                preloadFrames() {
+                    let loadedCount = 0;
+                    
+                    for (let i = 1; i <= this.frameCount; i++) {
+                        const img = new Image();
+                        const frameNum = i.toString().padStart(3, '0');
+                        img.src = `/sequence/ezgif-frame-${frameNum}.jpg`;
+                        
+                        img.onload = () => {
+                            loadedCount++;
+                            if (loadedCount === this.frameCount) {
+                                this.loaded = true;
+                                this.startAnimation();
+                            }
+                        };
+                        
+                        this.frames.push(img);
+                    }
+                },
+
+                startAnimation() {
+                    const frameDelay = 1000 / this.fps;
+                    let lastFrameTime = 0;
+
+                    const animate = (currentTime) => {
+                        if (currentTime - lastFrameTime >= frameDelay) {
+                            this.currentFrame++;
+                            
+                            // Loop back to start or stop at end
+                            if (this.currentFrame >= this.frameCount) {
+                                this.currentFrame = this.frameCount - 1; // Stop at last frame
+                                // Optionally loop: this.currentFrame = 0;
+                                return; // Stop animation at end
+                            }
+                            
+                            this.updateFrame(this.currentFrame);
+                            lastFrameTime = currentTime;
+                        }
+                        
+                        this.animationId = requestAnimationFrame(animate);
+                    };
+
+                    this.animationId = requestAnimationFrame(animate);
+                },
+
+                updateFrame(frameIndex) {
+                    if (frameIndex >= 0 && frameIndex < this.frames.length && this.frames[frameIndex].complete) {
+                        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                        this.ctx.drawImage(this.frames[frameIndex], 0, 0, this.canvas.width, this.canvas.height);
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+            easing: 'ease-out'
+        });
+    </script>
     <script type="module" src="/src/main.js"></script>
 </body>
 
