@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="corporate">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Niva Ecotech</title>
+    <meta name="description" content="Get in touch with Niva Ecotech for sustainable energy solutions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-base-100 text-base-content antialiased" x-data="{ scrolled: false }"
+    @scroll.window="scrolled = (window.pageYOffset > 20)">
+
+    <!-- Navigation -->
+    <div class="navbar fixed top-0 w-full z-50 transition-all duration-300"
+        :class="scrolled ? 'bg-base-100/95 backdrop-blur-sm shadow-sm' : 'bg-transparent text-white'">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h8m-8 6h16" />
+                    </svg>
+                </div>
+                <ul tabindex="0"
+                    class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-slate-800">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a>Services</a></li>
+                    <li><a>Portfolio</a></li>
+                    <li><a>About</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </div>
+            <a href="index.html" class="btn btn-ghost text-xl uppercase font-bold gap-2">
+                <img src="/images/Logo.svg" alt="Logo" class="h-8 w-auto">
+                <div class="flex flex-col items-start leading-none">
+                    <span>Niva Ecotech</span>
+                    <span class="text-[10px] font-normal opacity-70">Eco Revolution</span>
+                </div>
+            </a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1 font-medium">
+                <li><a href="index.html">Home</a></li>
+                <li><a>Services</a></li>
+                <li><a>Portfolio</a></li>
+                <li><a>About</a></li>
+            </ul>
+        </div>
+        <div class="navbar-end">
+            <a href="contact.html" class="btn btn-primary rounded-full px-6 text-white font-bold">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero min-h-[50vh]" style="background-image: url('/images/Rooftop.jpg');">
+        <div class="hero-overlay bg-opacity-70 bg-slate-900 mix-blend-multiply"></div>
+        <div class="hero-content text-center text-white pt-20">
+            <div class="max-w-2xl">
+                <div class="w-16 h-1 bg-white mx-auto mb-6 rounded"></div>
+                <h1 class="mb-5 text-5xl font-bold font-serif">Contact Us</h1>
+                <div class="w-16 h-1 bg-white mx-auto mt-6 rounded"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Info & Form Section -->
+    <section class="py-20 bg-base-100">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+                <!-- Contact Details -->
+                <div class="animate-fade-in-up">
+                    <div class="badge badge-primary mb-4 p-3 text-white font-bold tracking-wider uppercase">Get In Touch
+                    </div>
+                    <h2 class="text-4xl font-bold mb-8">Headquarter</h2>
+
+                    <div class="space-y-6 text-lg">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-base-200 flex items-center justify-center text-primary shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="font-bold block text-sm opacity-70">Contact Person</span>
+                                Ajay Mundada
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-base-200 flex items-center justify-center text-primary shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="font-bold block text-sm opacity-70">Phone</span>
+                                +91 989 099 3201
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-base-200 flex items-center justify-center text-primary shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="font-bold block text-sm opacity-70">Email</span>
+                                info@nivaecotech.com
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-base-200 flex items-center justify-center text-primary shrink-0 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="font-bold block text-sm opacity-70">Address</span>
+                                16/6 Pinnac Apartment, Ground Floor,<br>
+                                Vakil Nagar, Erandwane,<br>
+                                Pune, Maharashtra, India, 411004
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map -->
+                    <div class="mt-8 rounded-2xl overflow-hidden shadow-lg border border-base-200 w-full">
+                        <iframe class="w-full h-[300px]"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.4787884290569!2d73.82804487941385!3d18.499025950913175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bfeddba2db29%3A0x18df71f0e665f5fd!2sPinnac%20Apartment!5e0!3m2!1sen!2sin!4v1693224969540!5m2!1sen!2sin"
+                            style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="animate-fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="card bg-base-100 shadow-2xl border border-base-200">
+                        <div class="card-body p-8">
+                            <h3 class="card-title text-2xl mb-6">Send us a message</h3>
+                            <form class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text">Your Name</span>
+                                        </label>
+                                        <input type="text" placeholder="John Doe"
+                                            class="input input-bordered focus:input-primary w-full bg-base-50" />
+                                    </div>
+                                    <div class="form-control">
+                                        <label class="label">
+                                            <span class="label-text">Your Email</span>
+                                        </label>
+                                        <input type="email" placeholder="john@example.com"
+                                            class="input input-bordered focus:input-primary w-full bg-base-50" />
+                                    </div>
+                                </div>
+
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Subject</span>
+                                    </label>
+                                    <input type="text" placeholder="How can we help?"
+                                        class="input input-bordered focus:input-primary w-full bg-base-50" />
+                                </div>
+
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Message</span>
+                                    </label>
+                                    <textarea class="textarea textarea-bordered focus:textarea-primary h-32 bg-base-50"
+                                        placeholder="Your message here..."></textarea>
+                                </div>
+
+                                <div class="form-control mt-6">
+                                    <button class="btn btn-primary text-white text-lg h-12">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer p-10 bg-neutral text-neutral-content">
+        <aside>
+            <img src="/images/Logo.svg" class="h-12 w-auto mb-4 bg-white rounded p-1" alt="Logo">
+            <p class="font-bold text-lg">Niva Ecotech Pvt. Ltd.</p>
+            <p>"Empowering Your Future with Sustainable Excellence"</p>
+        </aside>
+        <nav>
+            <header class="footer-title">Services</header>
+            <a class="link link-hover">Solar Park</a>
+            <a class="link link-hover">Rooftop Solar</a>
+            <a class="link link-hover">Operations & Maintenance</a>
+        </nav>
+        <nav>
+            <header class="footer-title">Company</header>
+            <a class="link link-hover">About us</a>
+            <a class="link link-hover">Contact</a>
+            <a class="link link-hover">Jobs</a>
+        </nav>
+        <nav>
+            <header class="footer-title">Legal</header>
+            <a class="link link-hover">Terms of use</a>
+            <a class="link link-hover">Privacy policy</a>
+        </nav>
+    </footer>
+    <footer class="footer px-10 py-4 border-t bg-neutral text-neutral-content border-base-300">
+        <aside class="items-center grid-flow-col">
+            <p>© 2026 Niva Ecotech Pvt. Ltd. All rights reserved.</p>
+        </aside>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
