@@ -8,96 +8,76 @@
     <meta name="description" content="Empowering Your Future with Sustainable Excellence">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            overflow-x: hidden;
+        [x-cloak] {
+            display: none !important;
         }
-        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
-        
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            /* green-600 */
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #15803d;
+            /* green-700 */
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
         .gradient-text {
             background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-        
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); }
-            50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.8); }
-        }
-        
-        .card-hover-effect {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-hover-effect:hover {
-            transform: translateY(-12px) scale(1.02);
-        }
-        
+
+        /* Blobs */
         .blob {
             position: absolute;
+            background-color: rgb(74, 222, 128);
+            /* green-400 */
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.15;
-            animation: blob 7s infinite;
+            opacity: 0.4;
+            animation: pulse-blob 8s infinite ease-in-out alternate;
+            z-index: 0;
         }
-        
-        @keyframes blob {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-        
-        .feature-icon {
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-        
-        .text-shimmer {
-            background: linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #16a34a 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 3s linear infinite;
-        }
-        
-        @keyframes shimmer {
-            to { background-position: 200% center; }
-        }
-        
-        .slide-up {
-            animation: slideUp 0.6s ease-out;
-        }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(30px);
+
+        @keyframes pulse-blob {
+            0% {
+                transform: scale(1) translate(0, 0);
             }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
+
+            100% {
+                transform: scale(1.1) translate(20px, 20px);
             }
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        /* Hero Animation Fallback */
+        canvas {
+            display: block;
         }
     </style>
 </head>
@@ -107,7 +87,7 @@
 
     <!-- Full Width Header Navigation -->
     <div class="fixed top-0 left-0 w-full z-50 border-b transition-all duration-300"
-        :class="{ 'bg-white/95 backdrop-blur-md shadow-lg border-gray-100': scrolled, 'bg-slate-900 border-slate-800': !scrolled }"
+        :class="{ 'bg-white/95 shadow-lg border-gray-100': scrolled, 'bg-slate-900 border-slate-800': !scrolled }"
         x-data="{ mobileMenuOpen: false }">
         <nav class="container mx-auto max-w-7xl flex items-center justify-between px-4 py-3">
             <!-- Logo -->
@@ -179,30 +159,38 @@
             <!-- Loading State -->
             <div x-show="!loaded" class="absolute inset-0 flex items-center justify-center bg-white z-10">
                 <div class="text-center">
-                    <div class="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-green-600 border-r-transparent mb-4"></div>
+                    <div
+                        class="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-green-600 border-r-transparent mb-4">
+                    </div>
                     <p class="text-slate-600 text-sm font-medium">Loading Experience...</p>
                 </div>
             </div>
 
             <!-- Canvas -->
-            <canvas 
-                x-ref="canvas" 
-                class="w-full h-full object-cover"
-                :class="{ 'opacity-0': !loaded, 'opacity-100 transition-opacity duration-500': loaded }"
-            ></canvas>
+            <canvas x-ref="canvas" class="w-full h-full object-cover"
+                :class="{ 'opacity-0': !loaded, 'opacity-100 transition-opacity duration-500': loaded }"></canvas>
 
             <!-- Text Overlay -->
-            <div class="absolute inset-0 pointer-events-none flex items-center justify-center text-center px-6">
-                <div class="relative" x-show="loaded" x-transition:enter="transition ease-out duration-1000 delay-500" x-transition:enter-start="opacity-0 translate-y-10" x-transition:enter-end="opacity-100 translate-y-0">
-                    <div class="absolute inset-0 bg-white/25 rounded-3xl -m-10"></div>
-                    <div class="relative p-10">
-                        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(255,255,255,1)]">Solar Operations & Maintenance</h1>
-                        <p class="text-xl md:text-2xl text-slate-900 mb-8 max-w-3xl mx-auto font-bold drop-shadow-[0_4px_10px_rgba(255,255,255,1)]">Engineering excellence in every layer</p>
-                        <div class="flex gap-4 justify-center pointer-events-auto">
-                            <button class="btn bg-green-600 hover:bg-green-700 text-white border-none rounded-full px-10 py-3 font-bold shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+            <div class="absolute inset-0 pointer-events-none flex items-center justify-center text-center px-4 md:px-6">
+                <div class="relative" x-show="loaded" x-transition:enter="transition ease-out duration-1000 delay-500"
+                    x-transition:enter-start="opacity-0 translate-y-10"
+                    x-transition:enter-end="opacity-100 translate-y-0">
+                    <div class="absolute inset-0 bg-white/25 rounded-3xl -m-6 md:-m-10"></div>
+                    <div class="relative p-6 md:p-10">
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-7xl font-extrabold text-slate-900 mb-3 md:mb-4 tracking-tight drop-shadow-[0_4px_12px_rgba(255,255,255,1)] leading-tight">
+                            Engineering Solar. Sustaining Impact.</h1>
+                        <p
+                            class="text-base sm:text-lg md:text-2xl text-slate-900 mb-6 md:mb-8 max-w-3xl mx-auto font-bold drop-shadow-[0_4px_10px_rgba(255,255,255,1)] px-2">
+                            Reliable solutions across utility-scale and rooftop solar systems.</p>
+                        <div
+                            class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pointer-events-auto items-center">
+                            <button
+                                class="btn w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white border-none rounded-full px-8 md:px-10 py-2 md:py-3 font-bold shadow-xl hover:shadow-2xl transition-all hover:scale-105 min-h-[44px] sm:min-h-[48px]">
                                 Get Started
                             </button>
-                            <button class="btn bg-slate-900 hover:bg-slate-800 text-white border-none rounded-full px-10 py-3 font-bold shadow-xl transition-all hover:scale-105">
+                            <button
+                                class="btn w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white border-none rounded-full px-8 md:px-10 py-2 md:py-3 font-bold shadow-xl transition-all hover:scale-105 min-h-[44px] sm:min-h-[48px]">
                                 Learn More
                             </button>
                         </div>
@@ -217,17 +205,20 @@
         <!-- Animated Background Blobs -->
         <div class="blob w-96 h-96 bg-green-400 top-20 left-10"></div>
         <div class="blob w-96 h-96 bg-blue-400 bottom-20 right-10" style="animation-delay: 2s;"></div>
-        
+
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center mb-16" data-aos="fade-up">
-                <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-green-100 mb-6">
+                <div
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/80 backdrop-blur-md shadow-lg border border-green-100 mb-6">
                     <span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </span>
                     <span class="text-sm font-bold text-slate-700">Comprehensive Solar Solutions</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Core <span class="gradient-text">Solutions</span></h2>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Core <span class="gradient-text">Solutions</span>
+                </h2>
                 <p class="text-slate-600 text-lg max-w-2xl mx-auto">Powering the future with comprehensive solar
                     technologies and sustainable energy innovations.</p>
             </div>
@@ -240,13 +231,17 @@
                             class="group-hover:scale-110 transition-transform duration-700 w-full h-full object-cover" />
                     </figure>
                     <div class="card-body justify-end">
-                        <div class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <div
+                            class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                         </div>
                         <h2 class="card-title text-2xl mb-2 font-bold">Utility Scale Parks</h2>
-                        <p class="grow-0 text-white/90">Large-scale solar energy installations generating electricity from sunlight.
+                        <p class="grow-0 text-white/90">Large-scale solar energy installations generating electricity
+                            from sunlight.
                         </p>
                     </div>
                 </div>
@@ -258,10 +253,14 @@
                             class="group-hover:scale-110 transition-transform duration-700 w-full h-full object-cover" />
                     </figure>
                     <div class="card-body justify-end">
-                        <div class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <div
+                            class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                         </div>
                         <h2 class="card-title text-2xl mb-2 font-bold">O&M Services</h2>
@@ -276,9 +275,12 @@
                             class="group-hover:scale-110 transition-transform duration-700 w-full h-full object-cover" />
                     </figure>
                     <div class="card-body justify-end">
-                        <div class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        <div
+                            class="feature-icon w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>
                         </div>
                         <h2 class="card-title text-2xl mb-2 font-bold">Rooftop Solar EPC</h2>
@@ -293,18 +295,21 @@
     <section class="py-24 bg-base-200 relative overflow-hidden">
         <div class="blob w-96 h-96 bg-green-300 top-40 right-20" style="animation-delay: 1s;"></div>
         <div class="blob w-96 h-96 bg-blue-300 bottom-40 left-20" style="animation-delay: 3s;"></div>
-        
+
         <div class="container mx-auto px-4 relative z-10">
             <!-- Section Header -->
             <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up">
-                <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
                     <span class="font-bold tracking-widest uppercase text-sm">Why Choose Niva Ecotech?</span>
                 </div>
                 <h2 class="text-4xl md:text-5xl font-extrabold mb-8 leading-tight text-slate-900">Financial gains,
-                    convenience & <br class="hidden md:block" /> <span class="gradient-text">future-proof investments</span>.</h2>
+                    convenience & <br class="hidden md:block" /> <span class="gradient-text">future-proof
+                        investments</span>.</h2>
                 <p class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">At Niva Ecotech, we stand out as
                     your ideal partner in harnessing the power of sustainable energy solutions.</p>
             </div>
@@ -427,38 +432,197 @@
     </section>
 
     <!-- Stats -->
-    <div class="stats stats-vertical lg:stats-horizontal shadow w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-none py-10">
-        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="100">
-            <div class="stat-value text-green-400 text-5xl font-bold">9+</div>
-            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Years Experience</div>
+    <!-- Stats Section -->
+    <section class="relative py-6 overflow-hidden bg-slate-900" x-data="{ 
+            stats: [
+                { label: 'Years Experience', value: 9, current: 0, suffix: '', icon: 'calendar' },
+                { label: 'Mega Watt', value: 2000, current: 0, suffix: '', icon: 'lightning' },
+                { label: 'Satisfied Clients', value: 25, current: 0, suffix: '', icon: 'users' },
+                { label: 'Complete Projects', value: 40, current: 0, suffix: '', icon: 'clipboard' }
+            ],
+            started: false,
+            init() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !this.started) {
+                            this.started = true;
+                            this.startCounting();
+                        }
+                    });
+                }, { threshold: 0.3 });
+                observer.observe(this.$el);
+            },
+            startCounting() {
+                this.stats.forEach(stat => {
+                    const duration = 2000;
+                    const start = performance.now();
+                    const step = (now) => {
+                        const progress = Math.min((now - start) / duration, 1);
+                        // Ease out cubic
+                        const ease = 1 - Math.pow(1 - progress, 3);
+                        stat.current = Math.floor(ease * stat.value);
+                        if (progress < 1) requestAnimationFrame(step);
+                    };
+                    requestAnimationFrame(step);
+                });
+            }
+        }">
+
+        <!-- Background with Parallax Feel -->
+        <div class="absolute inset-0 z-0">
+            <img src="/images/brain.jpg" alt="Neural Network Background"
+                class="w-full h-full object-cover opacity-40 mix-blend-overlay" />
+            <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-slate-900/80 to-black/90"></div>
+            <!-- Animated overlay effect -->
+            <div
+                class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-30">
+            </div>
         </div>
-        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="200">
-            <div class="stat-value text-green-400 text-5xl font-bold">2GW</div>
-            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Mega Watts</div>
+
+        <div class="relative z-10 container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+                <template x-for="stat in stats">
+                    <div
+                        class="flex flex-col items-center group transform hover:-translate-y-2 transition-transform duration-300">
+                        <!-- Icons -->
+                        <div
+                            class="mb-6 p-4 rounded-full bg-white/5 border border-white/10 group-hover:bg-green-500/20 group-hover:border-green-500/50 transition-all duration-300 backdrop-blur-sm">
+                            <svg x-show="stat.icon === 'calendar'"
+                                class="w-8 h-8 text-white group-hover:text-green-400 transition-colors" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <svg x-show="stat.icon === 'lightning'"
+                                class="w-8 h-8 text-white group-hover:text-green-400 transition-colors" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <svg x-show="stat.icon === 'users'"
+                                class="w-8 h-8 text-white group-hover:text-green-400 transition-colors" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            <svg x-show="stat.icon === 'clipboard'"
+                                class="w-8 h-8 text-white group-hover:text-green-400 transition-colors" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                        </div>
+
+                        <div class="text-5xl md:text-6xl font-bold text-white mb-3 tracking-tight font-sans">
+                            <span x-text="stat.current"></span><span x-show="stat.value < 100"
+                                class="text-green-400">+</span>
+                        </div>
+                        <div class="text-sm font-bold text-slate-400 uppercase tracking-widest" x-text="stat.label">
+                        </div>
+                    </div>
+                </template>
+            </div>
         </div>
-        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="300">
-            <div class="stat-value text-green-400 text-5xl font-bold">25+</div>
-            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Satisfied Clients</div>
-        </div>
-        <div class="stat place-items-center" data-aos="fade-up" data-aos-delay="400">
-            <div class="stat-value text-green-400 text-5xl font-bold">40+</div>
-            <div class="stat-desc text-slate-300 text-sm uppercase tracking-wider">Projects</div>
-        </div>
-    </div>
+    </section>
 
     <!-- Clients -->
     <section class="py-20 bg-base-100 relative overflow-hidden">
         <div class="blob w-72 h-72 bg-green-200 top-10 left-10" style="animation-delay: 2s;"></div>
         <div class="container mx-auto px-4 relative z-10">
-            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">Our <span class="gradient-text">Esteemed Clients</span></h2>
-            <p class="text-center text-slate-600 mb-12 text-lg" data-aos="fade-up" data-aos-delay="100">Trusted by leading organizations worldwide</p>
-            <div data-aos="fade-up" data-aos-delay="200"
-                class="flex flex-wrap justify-center gap-10 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                <img src="/images/esteemed-clients/adm-joinflex-private-limited.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="ADM Joinflex">
-                <img src="/images/esteemed-clients/bajaj-castings.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="Bajaj Castings">
-                <img src="/images/esteemed-clients/finolex-plasson.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="Finolex Plasson">
-                <img src="/images/esteemed-clients/deeksha-exports.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="Deeksha Exports">
-                <img src="/images/esteemed-clients/hotel-ssk-solitaire.jpg" class="h-16 object-contain hover:scale-110 transition-transform duration-300" alt="Hotel SSK Solitaire">
+            <h2 class="text-4xl font-bold text-center mb-4" data-aos="fade-up">Our <span class="gradient-text">Esteemed
+                    Clients</span></h2>
+            <p class="text-center text-slate-600 mb-12 text-lg" data-aos="fade-up" data-aos-delay="100">Trusted by
+                leading organizations worldwide</p>
+            <!-- Embla Carousel -->
+            <div class="embla relative max-w-full mx-auto" data-aos="fade-up" data-aos-delay="200">
+                <div class="embla__viewport overflow-hidden">
+                    <div class="embla__container flex">
+                        <!-- Slide 1 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/adm-joinflex-private-limited.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="ADM Joinflex">
+                        </div>
+                        <!-- Slide 2 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/bajaj-castings.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Bajaj Castings">
+                        </div>
+                        <!-- Slide 3 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/finolex-plasson.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Finolex Plasson">
+                        </div>
+                        <!-- Slide 4 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/deeksha-exports.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Deeksha Exports">
+                        </div>
+                        <!-- Slide 5 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/hotel-ssk-solitaire.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Hotel SSK Solitaire">
+                        </div>
+                        <!-- Slide 6 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/kie-engineering.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="KIE Engineering">
+                        </div>
+                        <!-- Slide 7 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/menon-pistons-and-rings.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Menon Pistons">
+                        </div>
+                        <!-- Slide 8 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/precision-camshaft-limited.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Precision Camshaft">
+                        </div>
+                        <!-- Slide 9 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/western-coal-india.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Western Coal India">
+                        </div>
+                        <!-- Slide 10 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/siddhivinayak-hospital.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Siddhivinayak Hospital">
+                        </div>
+                        <!-- Slide 11 -->
+                        <div
+                            class="embla__slide flex-[0_0_50%] sm:flex-[0_0_33%] md:flex-[0_0_25%] lg:flex-[0_0_16%] min-w-0 px-6 flex items-center justify-center">
+                            <img src="/images/esteemed-clients/samudra-electronics-private-limited.jpg"
+                                class="h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                                alt="Samudra Electronics">
+                        </div>
+                    </div>
+                </div>
+                <!-- Gradients -->
+                <div
+                    class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-base-100 to-transparent z-10 pointer-events-none">
+                </div>
+                <div
+                    class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-base-100 to-transparent z-10 pointer-events-none">
+                </div>
             </div>
         </div>
     </section>
@@ -514,11 +678,11 @@
                     this.ctx = this.canvas.getContext('2d');
                     this.isMobile = window.innerWidth < 768;
                     this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    
+
                     // Set canvas to match viewport dimensions
                     this.resizeCanvas();
                     window.addEventListener('resize', () => this.resizeCanvas());
-                    
+
                     if (this.prefersReducedMotion || this.isMobile) {
                         // Just load and show last frame for mobile/reduced motion
                         this.loadSingleFrame();
@@ -549,12 +713,12 @@
 
                 preloadFrames() {
                     let loadedCount = 0;
-                    
+
                     for (let i = 1; i <= this.frameCount; i++) {
                         const img = new Image();
                         const frameNum = i.toString().padStart(3, '0');
                         img.src = `/sequence/ezgif-frame-${frameNum}.jpg`;
-                        
+
                         img.onload = () => {
                             loadedCount++;
                             if (loadedCount === this.frameCount) {
@@ -562,7 +726,7 @@
                                 this.startAnimation();
                             }
                         };
-                        
+
                         this.frames.push(img);
                     }
                 },
@@ -574,18 +738,18 @@
                     const animate = (currentTime) => {
                         if (currentTime - lastFrameTime >= frameDelay) {
                             this.currentFrame++;
-                            
+
                             // Loop back to start or stop at end
                             if (this.currentFrame >= this.frameCount) {
                                 this.currentFrame = this.frameCount - 1; // Stop at last frame
                                 // Optionally loop: this.currentFrame = 0;
                                 return; // Stop animation at end
                             }
-                            
+
                             this.updateFrame(this.currentFrame);
                             lastFrameTime = currentTime;
                         }
-                        
+
                         this.animationId = requestAnimationFrame(animate);
                     };
 
@@ -601,7 +765,7 @@
             }
         }
     </script>
-    
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
