@@ -214,7 +214,7 @@
                             </a>
 
                             <!-- Rooftop Card -->
-                            <a href="rooftop-solar-epc.html"
+                            <a href="portfolio-rooftop.html"
                                 class="flex gap-4 group/card p-2 rounded-xl hover:bg-slate-50 transition-colors">
                                 <div class="w-24 h-24 shrink-0 overflow-hidden rounded-lg">
                                     <img src="/images/rooftop_solar_banner.png" alt="Rooftop"
@@ -302,23 +302,21 @@
     <section id="hero-section" class="relative h-screen w-full bg-white" x-data="heroAnimation()" x-init="init()">
         <!-- Canvas Container -->
         <div class="relative h-full w-full overflow-hidden bg-white">
-            <!-- Loading State -->
-            <div x-show="!loaded" x-transition:leave="transition opacity duration-1000"
-                class="absolute inset-0 flex items-center justify-center bg-white z-10">
-                <!-- Cleaner loading state: just white background, or subtle logo if needed. Removing spinner as requested. -->
-            </div>
+            <!-- Placeholder Image (First Frame) - Visible immediately -->
+            <img src="/sequence/ezgif-frame-001.jpg" alt="" class="absolute inset-0 w-full h-full object-cover z-0">
 
             <!-- Canvas -->
-            <canvas x-ref="canvas" class="w-full h-full object-cover"
-                :class="{ 'opacity-0': !loaded, 'opacity-100 transition-opacity duration-500': loaded }"></canvas>
+            <canvas x-ref="canvas" class="relative w-full h-full object-cover z-10"
+                :class="{ 'opacity-0': !loaded, 'opacity-100 transition-opacity duration-300': loaded }"></canvas>
 
-            <!-- Full Background Blur Overlay -->
-            <div x-show="loaded"
-                class="absolute inset-0 backdrop-blur-sm bg-white/20 animate-[blurIn_3s_ease-out_forwards]"></div>
+            <!-- Background Overlay (No Blur, Tint at End) -->
+            <div class="absolute inset-0 transition-colors duration-2000 ease-linear z-20"
+                :class="animationEnded ? 'bg-white/60' : 'bg-white/0'"></div>
 
             <!-- Text Overlay -->
-            <div class="absolute inset-0 pointer-events-none flex items-center justify-center text-center px-4 md:px-6">
-                <div class="relative" x-show="loaded" x-transition:enter="transition ease-out duration-1000 delay-500"
+            <div
+                class="absolute inset-0 pointer-events-none flex items-center justify-center text-center px-4 md:px-6 z-30">
+                <div class="relative" x-transition:enter="transition ease-out duration-1000 delay-500"
                     x-transition:enter-start="opacity-0 translate-y-10"
                     x-transition:enter-end="opacity-100 translate-y-0">
                     <div class="relative p-6 md:p-10">
@@ -1391,10 +1389,12 @@
                 canvas: null,
                 ctx: null,
                 frameCount: 120,
+                originalFrameCount: 120,
                 animationId: null,
-                fps: 30, // Frames per second
+                fps: 30, // 30 FPS for smooth playback
                 isMobile: false,
                 prefersReducedMotion: false,
+                animationEnded: false,
 
                 init() {
                     this.canvas = this.$refs.canvas;
@@ -1406,12 +1406,20 @@
                     this.resizeCanvas();
                     window.addEventListener('resize', () => this.resizeCanvas());
 
-                    if (this.prefersReducedMotion || this.isMobile) {
-                        // Just load and show last frame for mobile/reduced motion
-                        this.loadSingleFrame();
+                    const startLoading = () => {
+                        if (this.prefersReducedMotion || this.isMobile) {
+                            // Just load and show last frame for mobile/reduced motion
+                            this.loadSingleFrame();
+                        } else {
+                            // Load all frames and auto-play for desktop
+                            this.preloadFrames();
+                        }
+                    };
+
+                    if (document.readyState === 'complete') {
+                        setTimeout(startLoading, 100); // Slight delay to ensure paint
                     } else {
-                        // Load all frames and auto-play for desktop
-                        this.preloadFrames();
+                        window.addEventListener('load', () => setTimeout(startLoading, 100));
                     }
                 },
 
@@ -1431,6 +1439,7 @@
                     img.onload = () => {
                         this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
                         this.loaded = true;
+                        this.animationEnded = true;
                     };
                 },
 
@@ -1446,6 +1455,17 @@
                             loadedCount++;
                             if (loadedCount === this.frameCount) {
                                 this.loaded = true;
+                                this.frames.sort((a, b) => { // Ensure frames are ordered correctly by src
+                                    return a.src.localeCompare(b.src, undefined, { numeric: true, sensitivity: 'base' });
+                                });
+                                this.startAnimation();
+                            }
+                        };
+                        img.onerror = () => {
+                            console.error(`Failed to load frame ${frameNum}`);
+                            loadedCount++;
+                            if (loadedCount === this.frameCount) {
+                                this.loaded = true;
                                 this.startAnimation();
                             }
                         };
@@ -1456,21 +1476,30 @@
 
                 startAnimation() {
                     const frameDelay = 1000 / this.fps;
-                    let lastFrameTime = 0;
+                    let lastFrameTime = performance.now();
+
+                    // Explicitly start at frame 0
+                    this.currentFrame = 0;
+                    this.updateFrame(0);
 
                     const animate = (currentTime) => {
-                        if (currentTime - lastFrameTime >= frameDelay) {
+                        const elapsed = currentTime - lastFrameTime;
+
+                        if (elapsed >= frameDelay) {
+                            // Advance frame
                             this.currentFrame++;
 
-                            // Loop back to start or stop at end
-                            if (this.currentFrame >= this.frameCount) {
-                                this.currentFrame = this.frameCount - 1; // Stop at last frame
-                                // Optionally loop: this.currentFrame = 0;
-                                return; // Stop animation at end
+                            // Stop at end
+                            if (this.currentFrame >= this.frames.length) {
+                                this.currentFrame = this.frames.length - 1;
+                                this.animationEnded = true;
+                                this.updateFrame(this.currentFrame);
+                                return;
                             }
 
                             this.updateFrame(this.currentFrame);
-                            lastFrameTime = currentTime;
+                            // Adjust for drift
+                            lastFrameTime = currentTime - (elapsed % frameDelay);
                         }
 
                         this.animationId = requestAnimationFrame(animate);

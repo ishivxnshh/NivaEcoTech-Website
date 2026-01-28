@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar Parks Portfolio - Niva Ecotech</title>
-    <meta name="description" content="Discover our high-performance utility scale solar parks located across India.">
+    <title>Rooftop Solar Portfolio - Niva Ecotech</title>
+    <meta name="description"
+        content="Explore our extensive portfolio of rooftop solar installations for industries and residential societies.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -42,12 +43,12 @@
         .gradient-text {
             background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Using the same banner as solar park development for consistency, or we could generate a new one */
         #hero-section {
-            background-image: url('/images/solar_park_portfolio_banner.png');
+            background-image: url('/images/rooftop_solar_banner.png');
             background-size: cover;
             background-position: center;
         }
@@ -236,8 +237,23 @@
                         Consulting</a>
                 </div>
             </div>
-            <a href="portfolio-solar-parks.html"
-                class="btn btn-ghost justify-start w-full text-left font-bold text-slate-700">Portfolio</a>
+            <div x-data="{ portfolioOpen: false }">
+                <button @click="portfolioOpen = !portfolioOpen"
+                    class="btn btn-ghost justify-between w-full text-left font-bold text-slate-700">
+                    Portfolio
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200"
+                        :class="{ 'rotate-180': portfolioOpen }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div x-show="portfolioOpen" class="pl-4 flex flex-col gap-1 bg-slate-50/50 rounded-lg pb-2">
+                    <a href="portfolio-solar-parks.html"
+                        class="btn btn-ghost btn-sm justify-start font-medium text-slate-600 hover:text-green-600 h-auto py-2 text-wrap text-left">Solar
+                        Parks</a>
+                    <a href="portfolio-rooftop.html"
+                        class="btn btn-ghost btn-sm justify-start font-medium text-slate-600 hover:text-green-600 h-auto py-2 text-wrap text-left">Rooftop</a>
+                </div>
+            </div>
             <a href="#" class="btn btn-ghost justify-start w-full text-left font-bold text-slate-700">About</a>
             <div class="divider my-1"></div>
             <a href="contact.html"
@@ -254,310 +270,84 @@
         <!-- Content -->
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto" data-aos="fade-up">
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg">
-                Solar <span class="text-green-400">Parks</span>
+                Rooftop <span class="text-green-400">Installations</span>
             </h1>
             <p class="text-lg md:text-2xl text-white/90 font-medium max-w-3xl mx-auto">
-                Your Partner in Developing High-Performance Solar Parks.
+                Leveraging Rooftop Space for Efficient Electricity Production in Industries and Residential Societies.
             </p>
         </div>
     </section>
 
     <!-- Main Content Section -->
-    <section class="py-16 md:py-24 bg-white">
+    <section class="py-16 md:py-24 bg-white" x-data="projectsData()">
         <div class="container mx-auto px-4 max-w-7xl">
-            <div class="text-center mb-16" data-aos="fade-up">
+            <div id="projects-header" class="text-center mb-16" data-aos="fade-up">
                 <h3 class="text-green-600 font-bold uppercase tracking-widest text-sm mb-2">WE ARE PROUD OF OUR</h3>
                 <h2 class="text-3xl md:text-5xl font-bold text-slate-900">
-                    Open Access Utility Scale <span class="gradient-text">Solar Parks</span>
+                    Happy Clients and their <span class="gradient-text">Rooftop Installations</span>
                 </h2>
             </div>
 
             <!-- Projects Grid -->
-            <!-- Using a responsive grid layout. Each item mimics a card. -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
-                <!-- Menon Pistons -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/menon-pistons.jpg" alt="Menon Pistons"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">MENON PISTONS</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            SHIROLI MIDC
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">4.00 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="projects-grid">
+                <template x-for="project in paginatedProjects" :key="project.name">
+                    <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+                        data-aos="fade-up">
+                        <div
+                            class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
+                            <img :src="project.image" :alt="project.name"
+                                class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                                @error="$el.src = '/images/esteemed-clients/default.jpg'">
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg" x-text="project.name"></h3>
+                            <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span x-text="project.location"></span>
+                            </p>
+                            <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                                <span class="text-xs font-medium text-slate-500">Capacity</span>
+                                <span class="text-xl font-black text-green-600"
+                                    x-html="formatCapacity(project.capacity)"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Sanstar -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="50">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/sanstar.jpg" alt="Sanstar"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">SANSTAR</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            SHIRPUR
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">3.50 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Menon Pistons and Rings -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="100">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/menon-pistons-and-rings.jpg" alt="Menon Pistons and Rings"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">MENON PISTONS AND RINGS</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            TOAP SAMBHAPUR
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">3.00 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veeresha Techno Industries -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="150">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/veeresha-techno-industries-private-limited.jpg"
-                            alt="Veeresha Techno Industries"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">VEERESHA TECHNO</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            KUPWAD
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">3.00 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Castco -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="200">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/castco.jpg" alt="Castco"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">CASTCO</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            TOAP SAMBHAPUR
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">2.80 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kasturi Foundry -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="250">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/kasturi-foundry.jpg" alt="Kasturi Foundry"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">KASTURI FOUNDRY</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            KAGAL
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">2.80 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Western Coal India -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="300">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/western-coal-india.jpg" alt="Western Coal India"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">WESTERN COAL INDIA</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            CHHINDWADA
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">21.00 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Precision Camshaft -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="350">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/precision-camshaft-limited.jpg" alt="Precision Camshaft"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">PRECISION CAMSHAFT</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            SOLAPUR
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">15.00 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mayura Steels -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="400">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/mayura-steels-private-limited.jpg" alt="Mayura Steels"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">MAYURA STEELS</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            SHIROLI MIDC
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">1.50 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- KIE Engineering -->
-                <div class="group bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                    data-aos="fade-up" data-aos-delay="450">
-                    <div
-                        class="bg-white p-4 flex items-center justify-center h-48 relative overflow-hidden border-b border-slate-50">
-                        <img src="/images/esteemed-clients/kie-engineering.jpg" alt="KIE Engineering"
-                            class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105">
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-slate-800 leading-tight mb-1 text-lg">KIE ENGINEERING</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            SOLAPUR
-                        </p>
-                        <div class="flex items-center justify-between pt-3 border-t border-slate-100">
-                            <span class="text-xs font-medium text-slate-500">Capacity</span>
-                            <span class="text-xl font-black text-green-600">1.50 <span
-                                    class="text-xs text-green-600/70 font-bold">MWh</span></span>
-                        </div>
-                    </div>
-                </div>
-
+                </template>
             </div>
+
+            <!-- Pagination Controls -->
+            <div class="flex justify-center items-center gap-2 mt-12" x-show="totalPages > 1">
+                <button class="btn btn-sm btn-circle btn-ghost" :disabled="currentPage === 1"
+                    @click="currentPage--; document.getElementById('projects-header').scrollIntoView({ behavior: 'smooth', block: 'start' })">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <template x-for="page in totalPages" :key="page">
+                    <button class="btn btn-sm btn-circle"
+                        :class="currentPage === page ? 'btn-neutral text-white' : 'btn-ghost'"
+                        @click="currentPage = page; document.getElementById('projects-header').scrollIntoView({ behavior: 'smooth', block: 'start' })"
+                        x-text="page">
+                    </button>
+                </template>
+
+                <button class="btn btn-sm btn-circle btn-ghost" :disabled="currentPage === totalPages"
+                    @click="currentPage++; document.getElementById('projects-header').scrollIntoView({ behavior: 'smooth', block: 'start' })">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
         </div>
     </section>
 
@@ -683,6 +473,96 @@
             duration: 800,
             easing: 'ease-out'
         });
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('projectsData', () => ({
+                projects: [
+                    { name: 'SEINUMERO NIRMAN PRIVATE LIMITED', location: 'KHED SHIVAPUR', capacity: '0.91 MWh' },
+                    { name: 'MAHALAXMI METALS', location: 'SHIROLI MIDC', capacity: '0.80 MWh' },
+                    { name: 'PADMAVATI ENGINEERING', location: 'CHAKAN MIDC', capacity: '72 kWh' },
+                    { name: 'HEMDEEP ENTERPRISES', location: 'MIRAJ', capacity: '70 kWh' },
+                    { name: 'RONAK TEXTILES', location: 'HATGANANGALE', capacity: '70 kWh' },
+                    { name: 'PRADIP YADAV', location: 'KARAD', capacity: '7 kWh' },
+                    { name: 'SUPER AUTO INDIA LIMITED', location: 'CHAKAN MIDC', capacity: '0.60 MWh' },
+                    { name: 'ASHAPURA METALLICS', location: 'SHIROLI MIDC', capacity: '60 kWh' },
+                    { name: 'HOTEL MAHENDRA', location: 'GOTE, KARAD', capacity: '60 kWh' },
+                    { name: 'LITENS AUTOMOTIVE', location: 'CHAKAN MIDC', capacity: '60 kWh' },
+                    { name: 'SHRI GANESH ENGINEERING WORKS', location: 'CHAKAN MIDC', capacity: '0.55 MWh' },
+                    { name: 'MENON PISTONS', location: 'SHIROLI MIDC', capacity: '0.54 MWh' },
+                    { name: 'FINOLEX PLASSON', location: 'URSE', capacity: '0.53 MWh' },
+                    { name: 'NEW SOLID PRINTERS', location: 'MIRAJ', capacity: '50 kWh' },
+                    { name: 'DR SATISH SHINDE', location: 'KARAD', capacity: '5 kWh' },
+                    { name: 'FATTESINGH JADHAV', location: 'SAIDAPUR', capacity: '5 kWh' },
+                    { name: 'GRAMPANCHAYAT SAIDAPUR', location: 'KARAD', capacity: '5 kWh' },
+                    { name: 'JAYANT PATIL', location: 'KARAD', capacity: '5 kWh' },
+                    { name: 'PD GURAV', location: 'BANWADI', capacity: '5 kWh' },
+                    { name: 'RAJENDRA SHINDE', location: 'KESE', capacity: '5 kWh' },
+                    { name: 'SATISH PATIL', location: 'KARAD', capacity: '5 kWh' },
+                    { name: 'SAURABH PATIL', location: 'KARAD', capacity: '5 kWh' },
+                    { name: 'SUBHASHRAO PATIL', location: 'KARAD', capacity: '5 kWh' },
+                    { name: 'VEERESHA CASTINGS', location: 'KUPWAD', capacity: '455 kWh' },
+                    { name: 'KW POLYPACK', location: 'SHIRUR', capacity: '410 kWh' },
+                    { name: 'SAPRE AUTO ANCILARY', location: 'SHIROLI MIDC', capacity: '360 kWh' },
+                    { name: 'ADM JOINFLEX PRIVATE LIMITED', location: 'CHAKAN MIDC', capacity: '340 kWh' },
+                    { name: 'KUTWAL FOODS', location: 'SHIRUR', capacity: '310 kWh' },
+                    { name: 'APAL GAON', location: 'BELDARE', capacity: '30 kWh' },
+                    { name: 'DR DHANAJAY THORAT', location: 'KARVE', capacity: '3 kWh' },
+                    { name: 'DEEKSHA EXPORTS', location: 'CHAKAN MIDC', capacity: '270 kWh' },
+                    { name: 'DALVI GROUP', location: 'KARAD', capacity: '240 kWh' },
+                    { name: 'KASTURI FOUNDRY', location: 'KAGAL', capacity: '2.00 MWh' },
+                    { name: 'MENON PISTONS AND RINGS', location: 'SHIROLI MIDC', capacity: '2.00 MWh' },
+                    { name: 'SAMUDRA ELECTRONICS PRIVATE LIMITED', location: 'BARAMATI', capacity: '200 kWh' },
+                    { name: 'UNITY BUILDERS', location: 'SURLI', capacity: '200 kWh' },
+                    { name: 'HOTEL ALANKAR', location: 'KARAD', capacity: '20 kWh' },
+                    { name: 'SAU. VENUTAI CHAVAN SMARAK TRUST', location: 'KARAD', capacity: '20 kWh' },
+                    { name: 'SUMIT PACKAGING', location: 'CHAKAN MIDC', capacity: '170 kWh' },
+                    { name: 'RAVICAM MANUFACTURING', location: 'SHIROLI MIDC', capacity: '151 kWh' },
+                    { name: 'BAJAJ CASTINGS', location: 'CHAKAN MIDC', capacity: '150 kWh' },
+                    { name: 'HOTEL SSK SOLITAIRE', location: 'NASHIK', capacity: '150 kWh' },
+                    { name: 'SIDDHIVINAYAK HOSPITAL', location: 'NASHIK', capacity: '150 kWh' },
+                    { name: 'JAGADEESH CASTINGS', location: 'MIRAJ', capacity: '120 kWh' },
+                    { name: 'RAVIKIRAN PAPER', location: 'CHANDGAD', capacity: '1.06 MWh' },
+                    { name: 'MICROHONE INDUSTRIES', location: 'KUPWAD', capacity: '100 kWh' },
+                    { name: 'TILAK HIGHSCHOOL', location: 'KARAD', capacity: '10 kWh' },
+                    { name: 'TRIMURTI PETROLEUM', location: 'VATHAR', capacity: '10 kWh' },
+                ],
+                currentPage: 1,
+                itemsPerPage: 12,
+
+                get totalPages() {
+                    return Math.ceil(this.projects.length / this.itemsPerPage);
+                },
+
+                get paginatedProjects() {
+                    const start = (this.currentPage - 1) * this.itemsPerPage;
+                    const end = start + this.itemsPerPage;
+                    return this.projects.slice(start, end).map(project => ({
+                        ...project,
+                        image: this.getImageUrl(project.name)
+                    }));
+                },
+
+                getImageUrl(name) {
+                    // Normalize name to filename format
+                    const filename = name.toLowerCase()
+                        .replace(/\s+/g, '-') // Replace spaces with dashes
+                        .replace(/[().]/g, '') // Remove parentheses and dots (e.g. Ltd.)
+                        .replace(/--+/g, '-') // Remove multiple dashes
+                        .trim();
+
+                    return `/images/esteemed-clients/${filename}.jpg`;
+                },
+
+                formatCapacity(capacity) {
+                    // Split value and unit
+                    const parts = capacity.match(/([\d\.]+)\s*(\w+)/);
+                    if (parts) {
+                        return `${parts[1]} <span class="text-xs text-green-600/70 font-bold">${parts[2]}</span>`;
+                    }
+                    return capacity;
+                }
+            }))
+        })
     </script>
     <script type="module" src="/src/main.js"></script>
 </body>
